@@ -16,6 +16,7 @@ export default function FormMultiSelect({
 }: Props) {
   return (
     <MultiSelect
+      size="md"
       label={label}
       description={description}
       placeholder={label}
