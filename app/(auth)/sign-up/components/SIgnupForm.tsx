@@ -1,4 +1,12 @@
-import { Box, Button, Fieldset, Flex, TextInput, Title } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Fieldset,
+  Flex,
+  PasswordInput,
+  TextInput,
+  Title,
+} from "@mantine/core";
 import React from "react";
 
 type Props = {};
@@ -37,11 +45,11 @@ export default function SIgnupForm({}: Props) {
           />
         </Flex>
         <Box my={9}>
-          <TextInput label="Password" placeholder="Password" />
-          <TextInput
-            my={9}
+          <PasswordInput label="Password" placeholder="Password" />
+          <PasswordInput
             label="Confirm Password"
             placeholder="Confirm password"
+            my={9}
           />
         </Box>
         <Button mt={20} fullWidth>
