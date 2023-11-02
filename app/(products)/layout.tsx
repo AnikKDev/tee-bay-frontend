@@ -1,0 +1,47 @@
+"use client";
+import React, { useState } from "react";
+import { AppShell, Box, Button, Group, NavLink } from "@mantine/core";
+import NavLinks from "./components/NavLinks";
+import Link from "next/link";
+
+type Props = { children: React.ReactNode };
+const data = [
+  { label: "My Products", navigateTo: "my-products" },
+  { label: "Logout", navigateTo: "/signin" },
+];
+export default function AuthLayout({ children }: Props) {
+  return (
+    <>
+      <AppShell
+        header={{ height: 60 }}
+        navbar={{
+          width: 300,
+          breakpoint: "sm",
+          //   collapsed: { mobile: !opened },
+        }}
+        padding="md"
+      >
+        <AppShell.Header
+          display={"flex"}
+          px={20}
+          style={{
+            justifyContent: "flex-end",
+          }}
+        >
+          <Group justify="end">
+            {data.map((item, index) => (
+              <Link key={item.label} href={item.navigateTo}>
+                <Button variant="subtle" color="rgba(46, 46, 46, 1)">
+                  {item.label}
+                </Button>
+              </Link>
+            ))}
+          </Group>
+        </AppShell.Header>
+        <AppShell.Main px={2}>
+          <Box>{children}</Box>
+        </AppShell.Main>
+      </AppShell>
+    </>
+  );
+}
