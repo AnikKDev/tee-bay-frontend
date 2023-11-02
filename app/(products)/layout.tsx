@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { AppShell, Box, Button, Group, NavLink } from "@mantine/core";
-import NavLinks from "./components/NavLinks";
 import Link from "next/link";
 
 type Props = { children: React.ReactNode };
