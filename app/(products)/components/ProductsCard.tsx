@@ -1,20 +1,36 @@
-import { Badge, Box, Flex, Text, Title } from "@mantine/core";
+"use client";
+import { Badge, Box, Button, Flex, Modal, Text, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { AiFillDelete } from "react-icons/ai";
+import { HiPencil } from "react-icons/hi";
+import EditProductModal from "./EditProductModal";
 type Props = {};
 
 export default function ProductsCard({}: Props) {
+  const [opened, { open, close }] = useDisclosure(false);
   return (
     <Box
+      // onClick={open}
       mih={250}
       w={{ xs: 600, md: 400, lg: 600 }}
       // style={{ border: "2px solid gray", borderRadius: 5, color: "#363636" }}
       p={10}
-      className="rounded-md transition-all cursor-pointer hover:shadow-lg hover:border-gray-100 border"
+      className="rounded-md transition-all hover:shadow-lg hover:border-gray-100 border"
     >
       <Flex justify={"space-between"}>
         <Title order={2}>Name</Title>
-        <AiFillDelete style={{ fontSize: "2rem" }} />
+        <div>
+          <AiFillDelete
+            className="cursor-pointer"
+            style={{ fontSize: "2rem" }}
+          />
+          <HiPencil
+            className="cursor-pointer"
+            onClick={open}
+            style={{ fontSize: "2rem", margin: "6px 0" }}
+          />
+        </div>
       </Flex>
       <Flex>
         <Badge color="gray" mx={2} style={{ cursor: "pointer" }}>
@@ -35,6 +51,7 @@ export default function ProductsCard({}: Props) {
       <Title my={12} order={6}>
         Date Posted: 12-12-2023
       </Title>
+      <EditProductModal opened={opened} onClose={close} />
     </Box>
   );
 }
