@@ -52,7 +52,11 @@ export default function SIgnupForm({}: Props) {
             my={9}
           />
         </Box>
-        <Button mt={20} fullWidth>
+        <Button
+          className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full mt-10"
+          mt={20}
+          fullWidth
+        >
           Signup
         </Button>
       </Fieldset>

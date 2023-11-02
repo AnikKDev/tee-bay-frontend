@@ -21,7 +21,7 @@ export default function SIgninForm({}: Props) {
         <TextInput w={"100%"} label="Email" placeholder="example@example.com" />
         <PasswordInput label="Password" placeholder="Password" />
 
-        <Button mt={20} fullWidth>
+        <Button className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full mt-10">
           Singin
         </Button>
       </Fieldset>

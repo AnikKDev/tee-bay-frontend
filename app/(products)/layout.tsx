@@ -30,7 +30,7 @@ export default function AuthLayout({ children }: Props) {
           <Group justify="end">
             {data.map((item, index) => (
               <Link key={item.label} href={item.navigateTo}>
-                <Button variant="subtle" color="rgba(46, 46, 46, 1)">
+                <Button className="hover:bg-gray-100" variant="subtle">
                   {item.label}
                 </Button>
               </Link>

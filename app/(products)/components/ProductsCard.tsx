@@ -8,8 +8,9 @@ export default function ProductsCard({}: Props) {
     <Box
       mih={250}
       w={{ xs: 600, md: 400, lg: 600 }}
-      style={{ border: "2px solid gray", borderRadius: 5, color: "#363636" }}
+      // style={{ border: "2px solid gray", borderRadius: 5, color: "#363636" }}
       p={10}
+      className="rounded-md transition-all cursor-pointer hover:shadow-lg hover:border-gray-100 border"
     >
       <Flex justify={"space-between"}>
         <Title order={2}>Name</Title>
