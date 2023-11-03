@@ -1,10 +1,8 @@
 export type ProductData = {
-  name: string;
-  categories: string[];
-  descriptions: string;
+  product_name: string;
+  select_categories: string[];
+  description: string;
   product_price: string;
-  rent: {
-    rental_amount: string;
-    rental_period: string;
-  };
+  rent_amount: string;
+  rental_period: string;
 };
