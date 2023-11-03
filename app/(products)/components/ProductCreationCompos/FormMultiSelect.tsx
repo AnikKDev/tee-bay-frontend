@@ -1,4 +1,5 @@
 import { MultiSelect } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import React from "react";
 
 type Props = {
@@ -6,6 +7,7 @@ type Props = {
   data: string[];
   name: string;
   description: string;
+  form: UseFormReturnType<any>;
 };
 
 export default function FormMultiSelect({
@@ -13,6 +15,7 @@ export default function FormMultiSelect({
   label,
   data,
   name,
+  form,
 }: Props) {
   return (
     <MultiSelect
@@ -22,6 +25,7 @@ export default function FormMultiSelect({
       placeholder={label}
       data={data}
       name={name}
+      {...form.getInputProps(name)}
     />
   );
 }

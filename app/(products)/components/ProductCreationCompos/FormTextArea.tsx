@@ -1,13 +1,20 @@
 import { Textarea } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import React from "react";
 
 type Props = {
   name: string;
   label: string;
   description: string;
+  form: UseFormReturnType<any>;
 };
 
-export default function FormTextArea({ name, label, description }: Props) {
+export default function FormTextArea({
+  name,
+  label,
+  description,
+  form,
+}: Props) {
   return (
     <Textarea
       size="md"
@@ -15,6 +22,7 @@ export default function FormTextArea({ name, label, description }: Props) {
       label={label}
       description={description}
       placeholder={label}
+      {...form.getInputProps(name)}
     />
   );
 }

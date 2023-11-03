@@ -1,4 +1,5 @@
 import { Box, Select, TextInput } from "@mantine/core";
+import { UseFormReturnType } from "@mantine/form";
 import React from "react";
 
 type Props = {
@@ -11,6 +12,8 @@ type Props = {
   selectData: string[];
   selectLabel: string;
   selectDescription: string;
+  select_name: string;
+  form: UseFormReturnType<any>;
 };
 
 export default function FormProductPricing({
@@ -23,6 +26,8 @@ export default function FormProductPricing({
   selectData,
   selectLabel,
   selectDescription,
+  form,
+  select_name,
 }: Props) {
   return (
     <Box>
@@ -34,6 +39,7 @@ export default function FormProductPricing({
         withAsterisk
         description={priceDescription}
         placeholder={priceLabel}
+        {...form.getInputProps(priceName)}
       />
       <Box>
         <TextInput
@@ -44,12 +50,15 @@ export default function FormProductPricing({
           withAsterisk
           description={rentDescription}
           placeholder={rentLabel}
+          {...form.getInputProps(rentName)}
         />
         <Select
           description={selectDescription}
           label={selectLabel}
           placeholder={selectLabel}
           data={selectData}
+          name={select_name}
+          {...form.getInputProps(select_name)}
         />
       </Box>
     </Box>
