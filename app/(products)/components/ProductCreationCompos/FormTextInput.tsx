@@ -8,6 +8,8 @@ type Props = {
   description: string;
   name: string;
   form: UseFormReturnType<any>;
+  classNames?: string;
+  type?: string;
 };
 
 export default function FormTextInput({
@@ -15,9 +17,13 @@ export default function FormTextInput({
   description,
   name,
   form,
+  classNames,
+  type,
 }: Props) {
   return (
     <TextInput
+      type={type ? type : "text"}
+      className={classNames}
       name={name}
       size="md"
       radius="md"

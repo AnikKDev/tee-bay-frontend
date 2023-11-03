@@ -93,6 +93,7 @@ export default function ProductModal({ opened, close }: Props) {
               className="py-12"
             >
               <FormTextInput
+                classNames=""
                 key={"product_name"}
                 label="Product Name"
                 name="product_name"
