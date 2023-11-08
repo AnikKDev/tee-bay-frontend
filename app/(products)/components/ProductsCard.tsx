@@ -7,11 +7,29 @@ import { AiFillDelete } from "react-icons/ai";
 import { HiPencil } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
 import { ORDER_TAB } from "../my-products/page";
-type Props = {};
+import { ProductQueryType } from "../../types/product.types";
+type Props = {
+  handleProductPurchase?: (pid: string, email: string) => void;
+  handleProductRent?: (pid: string, email: string) => void;
+  productData: {
+    product: {
+      id?: string;
+      title?: string;
+      price?: string;
+      description: string;
+      categories?: string[];
+      rentalPeriod?: string;
+      rentalAmount?: string;
+    };
+  };
+};
 
-export default function ProductsCard({}: Props) {
+export default function ProductsCard({
+  handleProductPurchase,
+  handleProductRent,
+  productData,
+}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
-  const pathname = usePathname();
   const selectedTab = useContext(ORDER_TAB);
   return (
     <Box
@@ -23,7 +41,9 @@ export default function ProductsCard({}: Props) {
       className="rounded-md transition-all hover:shadow-lg hover:border-gray-100 border"
     >
       <Flex justify={"space-between"}>
-        <Title order={2}>Name</Title>
+        <Title order={2}>
+          {productData?.product?.title || productData?.title}
+        </Title>
         {selectedTab === "My Products" && (
           <div>
             <AiFillDelete
@@ -39,24 +59,60 @@ export default function ProductsCard({}: Props) {
         )}
       </Flex>
       <Flex>
-        <Badge color="gray" mx={2} style={{ cursor: "pointer" }}>
-          Cat1
-        </Badge>
-        <Badge color="gray" mx={2} style={{ cursor: "pointer" }}>
-          Cat2
-        </Badge>
+        {(productData?.product?.categories || productData?.categories)?.map(
+          (cat) => (
+            <Badge key={cat} color="gray" mx={2} style={{ cursor: "pointer" }}>
+              {cat}
+            </Badge>
+          )
+        )}
       </Flex>
-      <Title order={5}>Price: $500 | Rent: $100 daily</Title>
+      <Title order={5}>
+        Price: ${productData?.product?.price || productData?.price}{" "}
+        {productData?.product?.rentalAmount ||
+          (productData?.rentalAmount &&
+            `Rent: $${
+              productData?.product?.rentalAmount || productData?.rentalAmount
+            } ${
+              productData?.product?.rentalPeriod || productData?.rentalPeriod
+            }`)}
+      </Title>
       <Box>
         <Text my={2} fz="md" lh="md">
-          Paras is an orange, insectoid Pokémon that resembles the nymph stage
-          of a cicada. Its ovoid body is segmented, and it has three pairs of
-          pseudopupils.
+          {productData?.product?.description || productData?.description}
         </Text>
       </Box>
       <Title my={12} order={6}>
         Date Posted: 12-12-2023
       </Title>
+      {selectedTab !== "Ordered Products" &&
+        selectedTab !== "Rented Products" &&
+        selectedTab !== "My Products" && (
+          <>
+            <Button
+              onClick={() =>
+                handleProductPurchase(
+                  productData.id,
+                  localStorage.getItem("sazim_user_email")
+                )
+              }
+              className="bg-[#228BE6] hover:bg-[#1C7ED6] px-12 mt-10"
+            >
+              Buy
+            </Button>
+            <Button
+              onClick={() =>
+                handleProductRent(
+                  productData.id,
+                  localStorage.getItem("sazim_user_email")
+                )
+              }
+              className="bg-[#228BE6] ms-2 hover:bg-[#1C7ED6] px-12 mt-10"
+            >
+              Rent
+            </Button>
+          </>
+        )}
       <EditProductModal opened={opened} onClose={close} />
     </Box>
   );

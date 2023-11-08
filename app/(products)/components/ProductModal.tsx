@@ -74,11 +74,9 @@ export default function ProductModal({ opened, close }: Props) {
 
   const handleProductAddition = (values: Partial<ProductData>) => {
     form.setValues((prev) => ({ ...prev, ...values }));
-    console.log(values);
     if (!form.errors.length) {
       // check whether data added successfully
       if (!addProductLoading && !addProductError && data) {
-        console.log(data, addProductError);
         setIsError(false);
       }
     } else {

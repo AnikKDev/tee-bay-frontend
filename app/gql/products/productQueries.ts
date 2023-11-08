@@ -17,6 +17,7 @@ export const GetProductsByUserMail = gql`
     userByEmail(email: $email) {
       orders {
         product {
+          id
           title
           price
           categories
@@ -25,6 +26,7 @@ export const GetProductsByUserMail = gql`
       }
       rents {
         product {
+          id
           title
           rentalAmount
           rentalPeriod
@@ -59,6 +61,22 @@ export const AddProduct = gql`
       categories
       rentalAmount
       rentalPeriod
+    }
+  }
+`;
+export const CreateOrder = gql`
+  mutation CreateOrder($productId: ID!, $userEmail: String!) {
+    createOrder(productId: $productId, userEmail: $userEmail) {
+      productId
+      userEmail
+    }
+  }
+`;
+export const CreateRent = gql`
+  mutation CreateRent($productId: ID!, $userEmail: String!) {
+    createRent(productId: $productId, userEmail: $userEmail) {
+      id
+      userEmail
     }
   }
 `;

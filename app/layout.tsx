@@ -4,6 +4,7 @@ import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "../theme";
 import "./styles/globals.css";
 import WrapperProvider from "./components/layouts/WrapperProvider";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Tee Bay Store",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <WrapperProvider>
           <MantineProvider theme={theme}>{children}</MantineProvider>
+          <Toaster />
         </WrapperProvider>
       </body>
     </html>

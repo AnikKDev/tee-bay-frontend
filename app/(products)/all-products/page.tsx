@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
 import ProductsCard from "../components/ProductsCard";
 import { Box, Button, Flex, Grid, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -7,18 +8,64 @@ import ProductModal from "../components/ProductModal";
 import { useQuery, gql } from "@apollo/client";
 import CardSkeleton from "../../components/ui/card-skeleton";
 import { ProductData } from "../../types/product.types";
-import { GetAllProducts } from "../../gql/products/productQueries";
-
+import {
+  CreateOrder,
+  CreateRent,
+  GetAllProducts,
+  GetProductsByUserMail,
+} from "../../gql/products/productQueries";
+import { useMutation } from "@apollo/client";
+import CustomNotification from "../../components/ui/notification";
 type Props = {};
 
 export default function AllProducts({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
-
+  const [
+    createOrder,
+    { loading: orderLoading, error: orderError, data: orderedProduct },
+  ] = useMutation(CreateOrder, {
+    refetchQueries: [GetProductsByUserMail, "GetProductsByUserMail"],
+  });
+  const [
+    createRent,
+    { loading: rentLoading, error: rentError, data: rentProduct },
+  ] = useMutation(CreateRent);
   const {
     data: products,
     error: productsError,
     loading: productsLoading,
   } = useQuery(GetAllProducts);
+  // creating order
+  // handling product purchage
+  const handleProductPurchase = (pid: string, email: string) => {
+    createOrder({
+      variables: {
+        productId: pid,
+        userEmail: email,
+      },
+    });
+  };
+  const handleProductRent = (pid: string, email: string) => {
+    // console.log(pid, email);
+    createRent({
+      variables: {
+        productId: pid,
+        userEmail: email,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (orderedProduct) {
+      toast.success("Product has been bought successfully");
+    }
+  }, [orderedProduct]);
+  useEffect(() => {
+    if (rentProduct) {
+      toast.success("Product has been rented successfully");
+    }
+  }, [rentProduct]);
+
   let displayableContent;
   if (products && !productsLoading && products?.allProducts.length > 0) {
     displayableContent = (
@@ -33,7 +80,11 @@ export default function AllProducts({}: Props) {
             }}
             span={{ base: 12, md: 12, lg: 6 }}
           >
-            <ProductsCard />
+            <ProductsCard
+              productData={product}
+              handleProductPurchase={handleProductPurchase}
+              handleProductRent={handleProductRent}
+            />
           </Grid.Col>
         ))}
       </Grid>
