@@ -8,15 +8,22 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FormTextInput from "../../../(products)/components/ProductCreationCompos/FormTextInput";
 import { isEmail, matchesField, useForm } from "@mantine/form";
 import { UserData } from "../../../types/user.types";
 import { InputPassword } from "../../../components/ui/form-input";
-
+import { useMutation } from "@apollo/client";
+import { SignupUser } from "../../../gql/users/usersQueries";
+import { useRouter } from "next/navigation";
+import CustomAlert from "../../../components/ui/alert";
 type Props = {};
 
 export default function SIgnupForm({}: Props) {
+  const router = useRouter();
+
+  const [signUp, { loading: signupLoading, error: signupError, data }] =
+    useMutation(SignupUser);
   const form = useForm<UserData>({
     initialValues: {
       first_name: "",
@@ -46,7 +53,32 @@ export default function SIgnupForm({}: Props) {
   // user registration
   const handleUserRegistration = (values: UserData) => {
     console.log(values);
+    const {
+      address,
+      email,
+      first_name,
+      last_name,
+      password,
+      phone_number,
+      confirm_password,
+    } = values;
+    signUp({
+      variables: {
+        firstName: first_name,
+        lastName: last_name,
+        email: email,
+        password: password,
+        address: address,
+        phoneNumber: phone_number,
+        confirmPassword: confirm_password,
+      },
+    });
   };
+  useEffect(() => {
+    if (data) {
+      router.push("/my-products");
+    }
+  }, [data]);
   return (
     <Box w={{ xs: "90%", sm: "90%", md: "40%" }} mx={"auto"}>
       <Title my={9} ta={"center"} order={2}>
@@ -114,8 +146,12 @@ export default function SIgnupForm({}: Props) {
               form={form}
             />
           </Box>
+          {signupError && (
+            <CustomAlert text="Something went wrong while registering the user. Please try again." />
+          )}
           <Button
             type="submit"
+            disabled={signupLoading}
             className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full mt-10"
             mt={20}
             fullWidth

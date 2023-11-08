@@ -4,9 +4,11 @@ import {
   Fieldset,
   Flex,
   PasswordInput,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
+import Link from "next/link";
 import React from "react";
 
 type Props = {};
@@ -24,6 +26,12 @@ export default function SIgninForm({}: Props) {
         <Button className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full mt-10">
           Singin
         </Button>
+        <Text size="md" mt={9}>
+          Don&apos;t have an account?{" "}
+          <Link href={"/sign-up"} className="font-semibold underline">
+            Sign up
+          </Link>
+        </Text>
       </Fieldset>
     </Box>
   );

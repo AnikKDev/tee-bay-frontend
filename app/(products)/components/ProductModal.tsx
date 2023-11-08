@@ -10,7 +10,7 @@ import { useForm } from "@mantine/form";
 import { ProductData } from "../../types/product.types";
 import CustomAlert from "../../components/ui/alert";
 import { gql, useMutation } from "@apollo/client";
-import { GetAllProducts } from "../../gql/products/productQueries";
+import { AddProduct, GetAllProducts } from "../../gql/products/productQueries";
 type Props = {
   opened: boolean;
   close: () => void;
@@ -24,33 +24,7 @@ export default function ProductModal({ opened, close }: Props) {
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
   // gql submission
-  const AddProduct = gql`
-    mutation Mutation(
-      $title: String!
-      $categories: [String]!
-      $description: String!
-      $price: String!
-      $rentalAmount: String!
-      $rentalPeriod: String!
-    ) {
-      addProduct(
-        title: $title
-        categories: $categories
-        description: $description
-        price: $price
-        rentalAmount: $rentalAmount
-        rentalPeriod: $rentalPeriod
-      ) {
-        id
-        title
-        description
-        price
-        categories
-        rentalAmount
-        rentalPeriod
-      }
-    }
-  `;
+
   // todo: i can use watch method from react hook form to watch over form dat and whether to let them go to next step or not
   // !i can disable the next button for this
   const [
