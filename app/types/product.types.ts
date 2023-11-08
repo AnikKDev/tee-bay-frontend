@@ -7,6 +7,7 @@ export type ProductData = {
   product_price: string;
   rent_amount: string;
   rental_period: string;
+  createdAt?: string;
 };
 
 export type ProductQueryType = {

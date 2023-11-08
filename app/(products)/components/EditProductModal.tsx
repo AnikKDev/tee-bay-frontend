@@ -18,7 +18,6 @@ type Props = {
 export default function EditProductModal({ opened, onClose }: Props) {
   const [isError, setIsError] = useState(false);
   const { selectedProduct } = useContext(SELECTED_PRODUCT);
-  console.log(selectedProduct);
   const form = useForm<ProductData>({
     initialValues: {
       product_name: selectedProduct?.title || "",

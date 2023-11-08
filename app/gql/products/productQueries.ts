@@ -22,6 +22,7 @@ export const GetProductsByUserMail = gql`
           price
           categories
           description
+          createdAt
         }
       }
       rents {
@@ -32,6 +33,7 @@ export const GetProductsByUserMail = gql`
           rentalPeriod
           categories
           description
+          createdAt
         }
       }
     }

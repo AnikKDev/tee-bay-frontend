@@ -6,20 +6,23 @@ import { AiFillDelete } from "react-icons/ai";
 import { HiPencil } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
 import { ORDER_TAB, SELECTED_PRODUCT } from "../my-products/page";
+import { ProductData } from "../../types/product.types";
 type Props = {
   handleProductPurchase?: (pid: string, email: string) => void;
   handleProductRent?: (pid: string, email: string) => void;
-  productData: {
-    product: {
-      id?: string;
-      title?: string;
-      price?: string;
-      description: string;
-      categories?: string[];
-      rentalPeriod?: string;
-      rentalAmount?: string;
-    };
-  };
+  productData:
+    | {
+        product: {
+          id?: string;
+          title?: string;
+          price?: string;
+          description: string;
+          categories?: string[];
+          rentalPeriod?: string;
+          rentalAmount?: string;
+        };
+      }
+    | ProductData;
 };
 
 export default function ProductsCard({

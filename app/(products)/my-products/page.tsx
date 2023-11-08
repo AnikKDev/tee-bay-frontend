@@ -17,8 +17,19 @@ import { ProductQueryType } from "../../types/product.types";
 export const ORDER_TAB = createContext<string>("");
 export const SELECTED_PRODUCT = createContext<{
   selectedProduct: ProductQueryType;
-  setSelectedProduct: () => void;
-}>({});
+  setSelectedProduct: Dispatch<SetStateAction<ProductQueryType>>;
+}>({
+  selectedProduct: {
+    description: "",
+    categories: [""],
+    id: "",
+    price: "",
+    rentalAmount: "",
+    rentalPeriod: "",
+    title: "",
+  },
+  setSelectedProduct: () => {},
+});
 type Props = {};
 
 export default function MyProducts({}: Props) {
