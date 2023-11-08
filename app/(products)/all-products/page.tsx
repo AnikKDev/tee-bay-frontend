@@ -29,7 +29,9 @@ export default function AllProducts({}: Props) {
   const [
     createRent,
     { loading: rentLoading, error: rentError, data: rentProduct },
-  ] = useMutation(CreateRent);
+  ] = useMutation(CreateRent, {
+    refetchQueries: [GetProductsByUserMail, "GetProductsByUserMail"],
+  });
   const {
     data: products,
     error: productsError,

@@ -15,6 +15,15 @@ export const GetAllProducts = gql`
 export const GetProductsByUserMail = gql`
   query UserByEmail($email: String!) {
     userByEmail(email: $email) {
+      products {
+        id
+        title
+        rentalPeriod
+        rentalAmount
+        price
+        description
+        categories
+      }
       orders {
         product {
           id
@@ -47,6 +56,7 @@ export const AddProduct = gql`
     $price: String!
     $rentalAmount: String!
     $rentalPeriod: String!
+    $userEmail: String!
   ) {
     addProduct(
       title: $title
@@ -55,6 +65,7 @@ export const AddProduct = gql`
       price: $price
       rentalAmount: $rentalAmount
       rentalPeriod: $rentalPeriod
+      userEmail: $userEmail
     ) {
       id
       title

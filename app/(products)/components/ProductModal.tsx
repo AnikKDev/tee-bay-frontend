@@ -98,6 +98,7 @@ export default function ProductModal({ opened, close }: Props) {
         rentalAmount: rent_amount,
         rentalPeriod: rental_period,
         categories: select_categories,
+        userEmail: localStorage.getItem("sazim_user_email"),
       },
     });
   };
