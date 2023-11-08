@@ -1,9 +1,14 @@
+"use client";
+
 import { Button, Modal } from "@mantine/core";
-import React from "react";
+import React, { useState, useContext } from "react";
 import FormTextInput from "./ProductCreationCompos/FormTextInput";
 import FormMultiSelect from "./ProductCreationCompos/FormMultiSelect";
 import FormTextArea from "./ProductCreationCompos/FormTextArea";
 import FormProductPricing from "./ProductCreationCompos/FormProductPricing";
+import { ProductData } from "../../types/product.types";
+import { useForm } from "@mantine/form";
+import { SELECTED_PRODUCT } from "../my-products/page";
 
 type Props = {
   opened: boolean;
@@ -11,6 +16,66 @@ type Props = {
 };
 
 export default function EditProductModal({ opened, onClose }: Props) {
+  const [isError, setIsError] = useState(false);
+  const { selectedProduct } = useContext(SELECTED_PRODUCT);
+  console.log(selectedProduct);
+  const form = useForm<ProductData>({
+    initialValues: {
+      product_name: selectedProduct?.title || "",
+      select_categories: selectedProduct?.categories || [],
+      description: selectedProduct?.description || "",
+      product_price: selectedProduct?.price || "",
+      rent_amount: selectedProduct?.rentalAmount || "",
+      rental_period: selectedProduct?.rentalPeriod || "",
+    },
+    validate: {
+      product_name: (value) => {
+        // setActive(0);
+        return value.length <= 0 ? "Invalid product name" : null;
+      },
+      select_categories: (value) => {
+        // setActive(1);
+        return value.length <= 0
+          ? "Please select one or more product categories"
+          : null;
+      },
+      description: (value) => {
+        // setActive(2);
+        return value.length <= 0 ? "Invalid product description" : null;
+      },
+      product_price: (value) => {
+        // setActive(3);
+        return value.length <= 0 ? "Invalid product price" : null;
+      },
+      rent_amount: (value) => {
+        // setActive(3);
+        return value.length <= 0 ? "Invalid rent amount" : null;
+      },
+      rental_period: (value) => {
+        // setActive(3);
+        return value.length <= 0 ? "Please select rental period" : null;
+      },
+    },
+  });
+
+  // action
+  const handleProductUpdate = (values: Partial<ProductData>) => {
+    form.setValues((prev) => ({ ...prev, ...values }));
+    if (!form.errors.length) {
+      // check whether data added successfully
+      setIsError(false);
+    }
+
+    const {
+      description,
+      product_name,
+      product_price,
+      rent_amount,
+      rental_period,
+      select_categories,
+    } = values;
+  };
+
   return (
     <Modal
       centered
@@ -20,44 +85,53 @@ export default function EditProductModal({ opened, onClose }: Props) {
       title="Edit Product"
     >
       {/* Modal content */}
-      <FormTextInput
-        description="Update title"
-        label="Title"
-        name="title"
-        key={"title"}
-      />
-      <FormMultiSelect
-        data={["Electronics"]}
-        description="Update categories"
-        label="Categories"
-        name="categories"
-        key={"categories"}
-      />
-      <FormTextArea
-        description="Update product description"
-        label="Product description"
-        name="product_description"
-        key={"product_description"}
-      />
-      <FormProductPricing
-        priceDescription="Update product price"
-        priceLabel="Product price"
-        priceName="product_price"
-        rentDescription="Update rental details"
-        rentLabel="Rental amount"
-        rentName="rental_amount"
-        selectData={["daily", "weekly"]}
-        selectDescription="Update rental period"
-        selectLabel="Rental period"
-        key={"product_pricing"}
-      />
-      <Button
-        className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full"
-        my={20}
-        fullWidth
-      >
-        Save changes
-      </Button>
+      <form onSubmit={form.onSubmit(handleProductUpdate)}>
+        <FormTextInput
+          classNames=""
+          key={"product_name"}
+          label="Product Name"
+          name="product_name"
+          description="Write your product name here."
+          form={form}
+        />
+        <FormMultiSelect
+          data={["Electronics", "Gadgets"]}
+          label="Select Categories"
+          name="select_categories"
+          key={"select_categories"}
+          description="Select categories for your product"
+          form={form}
+        />
+        <FormTextArea
+          name="description"
+          description="Write something about your product here."
+          label="Description"
+          key={"description"}
+          form={form}
+        />
+        <FormProductPricing
+          priceDescription="Enter the product price"
+          priceLabel="Product Price"
+          priceName="product_price"
+          rentDescription="Enter the amount for renting the product."
+          rentLabel="Rent amount"
+          rentName="rent_amount"
+          selectData={["daily", "weekly", "monthly"]}
+          selectDescription="Enter the rental period"
+          selectLabel="Rental period"
+          key={"form_pricing"}
+          select_name="rental_period"
+          form={form}
+        />
+        <Button
+          type="submit"
+          className="bg-[#228BE6] hover:bg-[#1C7ED6] w-full"
+          my={20}
+          fullWidth
+        >
+          Save changes
+        </Button>
+      </form>
     </Modal>
   );
 }

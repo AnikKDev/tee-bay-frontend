@@ -14,7 +14,6 @@ export default function ProductsContainer({
   myRents,
   myProducts,
 }: Props) {
-  console.log(myRents, "rents");
   return (
     <Grid my={80} gutter={{ base: 17, xs: "md", md: "xl", xl: 30 }}>
       {/* ordered products of user */}

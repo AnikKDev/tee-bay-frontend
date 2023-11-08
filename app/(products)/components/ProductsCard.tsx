@@ -1,13 +1,11 @@
 "use client";
 import { Badge, Box, Button, Flex, Modal, Text, Title } from "@mantine/core";
-import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { HiPencil } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
-import { ORDER_TAB } from "../my-products/page";
-import { ProductQueryType } from "../../types/product.types";
+import { ORDER_TAB, SELECTED_PRODUCT } from "../my-products/page";
 type Props = {
   handleProductPurchase?: (pid: string, email: string) => void;
   handleProductRent?: (pid: string, email: string) => void;
@@ -31,6 +29,7 @@ export default function ProductsCard({
 }: Props) {
   const [opened, { open, close }] = useDisclosure(false);
   const selectedTab = useContext(ORDER_TAB);
+  const { setSelectedProduct } = useContext(SELECTED_PRODUCT);
   return (
     <Box
       // onClick={open}
@@ -52,7 +51,10 @@ export default function ProductsCard({
             />
             <HiPencil
               className="cursor-pointer"
-              onClick={open}
+              onClick={() => {
+                open();
+                setSelectedProduct(productData.product);
+              }}
               style={{ fontSize: "2rem", margin: "6px 0" }}
             />
           </div>

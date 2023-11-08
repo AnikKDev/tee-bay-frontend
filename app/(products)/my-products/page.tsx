@@ -1,5 +1,10 @@
 "use client";
-import React, { useState, createContext } from "react";
+import React, {
+  useState,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import ProductsCard from "../components/ProductsCard";
 import { Box, Button, Flex, Grid, Tabs, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -8,11 +13,25 @@ import { useQuery, gql } from "@apollo/client";
 import { GetProductsByUserMail } from "../../gql/products/productQueries";
 import ProductsContainer from "./ProductsContainer";
 import CardSkeleton from "../../components/ui/card-skeleton";
+import { ProductQueryType } from "../../types/product.types";
 export const ORDER_TAB = createContext<string>("");
+export const SELECTED_PRODUCT = createContext<{
+  selectedProduct: ProductQueryType;
+  setSelectedProduct: () => void;
+}>({});
 type Props = {};
 
 export default function MyProducts({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductQueryType>({
+    description: "",
+    categories: [""],
+    id: "",
+    price: "",
+    rentalAmount: "",
+    rentalPeriod: "",
+    title: "",
+  });
   const tabsArr = [
     { title: "Ordered Products", value: "ordered_products" },
     { title: "Rented Products", value: "rented_products" },
@@ -62,7 +81,14 @@ export default function MyProducts({}: Props) {
       );
     } else {
       displayableContent = (
-        <ProductsContainer myProducts={products?.userByEmail?.orders} />
+        <SELECTED_PRODUCT.Provider
+          value={{
+            selectedProduct,
+            setSelectedProduct,
+          }}
+        >
+          <ProductsContainer myProducts={products?.userByEmail?.orders} />
+        </SELECTED_PRODUCT.Provider>
       );
     }
   }
