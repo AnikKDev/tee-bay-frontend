@@ -3,6 +3,7 @@ import React from "react";
 import { MantineProvider, ColorSchemeScript } from "@mantine/core";
 import { theme } from "../theme";
 import "./styles/globals.css";
+import WrapperProvider from "./components/layouts/WrapperProvider";
 
 export const metadata = {
   title: "Tee Bay Store",
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <WrapperProvider>
+          <MantineProvider theme={theme}>{children}</MantineProvider>
+        </WrapperProvider>
       </body>
     </html>
   );

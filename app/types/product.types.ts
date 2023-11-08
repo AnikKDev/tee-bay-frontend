@@ -1,4 +1,5 @@
 export type ProductData = {
+  id?: string;
   product_name: string;
   select_categories: string[];
   description: string;

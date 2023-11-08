@@ -1,5 +1,6 @@
 "use client";
 import { Badge, Box, Button, Flex, Modal, Text, Title } from "@mantine/core";
+import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
 import React from "react";
 import { AiFillDelete } from "react-icons/ai";
@@ -9,6 +10,7 @@ type Props = {};
 
 export default function ProductsCard({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
+  const pathname = usePathname();
   return (
     <Box
       // onClick={open}
@@ -20,17 +22,19 @@ export default function ProductsCard({}: Props) {
     >
       <Flex justify={"space-between"}>
         <Title order={2}>Name</Title>
-        <div>
-          <AiFillDelete
-            className="cursor-pointer"
-            style={{ fontSize: "2rem" }}
-          />
-          <HiPencil
-            className="cursor-pointer"
-            onClick={open}
-            style={{ fontSize: "2rem", margin: "6px 0" }}
-          />
-        </div>
+        {!pathname.includes("/all-products") && (
+          <div>
+            <AiFillDelete
+              className="cursor-pointer"
+              style={{ fontSize: "2rem" }}
+            />
+            <HiPencil
+              className="cursor-pointer"
+              onClick={open}
+              style={{ fontSize: "2rem", margin: "6px 0" }}
+            />
+          </div>
+        )}
       </Flex>
       <Flex>
         <Badge color="gray" mx={2} style={{ cursor: "pointer" }}>
