@@ -5,6 +5,7 @@ import {
   Fieldset,
   Flex,
   PasswordInput,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -17,6 +18,7 @@ import { useMutation } from "@apollo/client";
 import { SignupUser } from "../../../gql/users/usersQueries";
 import { useRouter } from "next/navigation";
 import CustomAlert from "../../../components/ui/alert";
+import Link from "next/link";
 type Props = {};
 
 export default function SIgnupForm({}: Props) {
@@ -158,6 +160,12 @@ export default function SIgnupForm({}: Props) {
           >
             Signup
           </Button>
+          <Text size="md" mt={9}>
+            Already have an account?{" "}
+            <Link href={"/signin"} className="font-semibold underline">
+              Sign in
+            </Link>
+          </Text>
         </Fieldset>
       </form>
     </Box>

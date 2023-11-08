@@ -5,7 +5,8 @@ import Link from "next/link";
 
 type Props = { children: React.ReactNode };
 const data = [
-  { label: "My Products", navigateTo: "my-products" },
+  { label: "All Products", navigateTo: "all-products" },
+  { label: "Ordered Products", navigateTo: "my-products" },
   { label: "Logout", navigateTo: "/signin" },
 ];
 export default function AuthLayout({ children }: Props) {

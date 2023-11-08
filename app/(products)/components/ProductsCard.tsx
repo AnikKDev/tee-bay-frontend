@@ -2,15 +2,17 @@
 import { Badge, Box, Button, Flex, Modal, Text, Title } from "@mantine/core";
 import { usePathname } from "next/navigation";
 import { useDisclosure } from "@mantine/hooks";
-import React from "react";
+import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { HiPencil } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
+import { ORDER_TAB } from "../my-products/page";
 type Props = {};
 
 export default function ProductsCard({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
   const pathname = usePathname();
+  const selectedTab = useContext(ORDER_TAB);
   return (
     <Box
       // onClick={open}
@@ -22,7 +24,7 @@ export default function ProductsCard({}: Props) {
     >
       <Flex justify={"space-between"}>
         <Title order={2}>Name</Title>
-        {!pathname.includes("/all-products") && (
+        {selectedTab === "My Products" && (
           <div>
             <AiFillDelete
               className="cursor-pointer"
