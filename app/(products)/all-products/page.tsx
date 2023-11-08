@@ -7,24 +7,13 @@ import ProductModal from "../components/ProductModal";
 import { useQuery, gql } from "@apollo/client";
 import CardSkeleton from "../../components/ui/card-skeleton";
 import { ProductData } from "../../types/product.types";
+import { GetAllProducts } from "../../gql/products/productQueries";
 
 type Props = {};
 
 export default function AllProducts({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
-  const GetAllProducts = gql`
-    query AllProducts {
-      allProducts {
-        title
-        rentalPeriod
-        rentalAmount
-        price
-        id
-        description
-        categories
-      }
-    }
-  `;
+
   const {
     data: products,
     error: productsError,

@@ -9,6 +9,8 @@ import ProductCreationSummary from "./ProductCreationCompos/ProductCreationSumma
 import { useForm } from "@mantine/form";
 import { ProductData } from "../../types/product.types";
 import CustomAlert from "../../components/ui/alert";
+import { gql, useMutation } from "@apollo/client";
+import { GetAllProducts } from "../../gql/products/productQueries";
 type Props = {
   opened: boolean;
   close: () => void;
@@ -21,8 +23,42 @@ export default function ProductModal({ opened, close }: Props) {
     setActive((current) => (current < 6 ? current + 1 : current));
   const prevStep = () =>
     setActive((current) => (current > 0 ? current - 1 : current));
+  // gql submission
+  const AddProduct = gql`
+    mutation Mutation(
+      $title: String!
+      $categories: [String]!
+      $description: String!
+      $price: String!
+      $rentalAmount: String!
+      $rentalPeriod: String!
+    ) {
+      addProduct(
+        title: $title
+        categories: $categories
+        description: $description
+        price: $price
+        rentalAmount: $rentalAmount
+        rentalPeriod: $rentalPeriod
+      ) {
+        id
+        title
+        description
+        price
+        categories
+        rentalAmount
+        rentalPeriod
+      }
+    }
+  `;
   // todo: i can use watch method from react hook form to watch over form dat and whether to let them go to next step or not
   // !i can disable the next button for this
+  const [
+    addProduct,
+    { data, loading: addProductLoading, error: addProductError },
+  ] = useMutation(AddProduct, {
+    refetchQueries: [GetAllProducts, "GetAllProducts"],
+  });
   const form = useForm<ProductData>({
     initialValues: {
       product_name: "",
@@ -64,15 +100,46 @@ export default function ProductModal({ opened, close }: Props) {
 
   const handleProductAddition = (values: Partial<ProductData>) => {
     form.setValues((prev) => ({ ...prev, ...values }));
+    console.log(values);
     if (!form.errors.length) {
+      // check whether data added successfully
+      if (!addProductLoading && !addProductError && data) {
+        console.log(data, addProductError);
+        setIsError(false);
+      }
+    } else {
+      setIsError(true);
+    }
+    const {
+      description,
+      product_name,
+      product_price,
+      rent_amount,
+      rental_period,
+      select_categories,
+    } = values;
+    addProduct({
+      variables: {
+        title: product_name,
+        description: description,
+        price: product_price,
+        rentalAmount: rent_amount,
+        rentalPeriod: rental_period,
+        categories: select_categories,
+      },
+    });
+  };
+  useEffect(() => {
+    if (!addProductLoading && !addProductError && data) {
+      console.log(data, addProductError);
       setIsError(false);
       close();
     } else {
       setIsError(true);
     }
-    console.log(values);
-  };
-  console.log(form.errors, "errors");
+  }, [addProductError, addProductLoading, close, data]);
+
+  // console.log(form.errors, "errors");
   return (
     <Modal
       size="calc(100vw - 30rem)"
@@ -162,6 +229,10 @@ export default function ProductModal({ opened, close }: Props) {
               {Object.keys(form.errors)?.length ? (
                 <CustomAlert text="One or more field is missing. Please check again!" />
               ) : null}
+              {/* product error message */}
+              {addProductError && (
+                <CustomAlert text="Something went wrong with adding the product. Please try again." />
+              )}
               {/* <CustomAlert text="One or more field is missing. Please check again!" /> */}
               <Title order={3} className="text-center text-gray-500">
                 Confirm save?
@@ -171,6 +242,7 @@ export default function ProductModal({ opened, close }: Props) {
           {active === 5 && (
             <Button
               type="submit"
+              disabled={addProductLoading}
               className="bg-[#228BE6] block mx-auto my-6 hover:bg-[#1C7ED6]"
             >
               Save and close
