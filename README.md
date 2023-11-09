@@ -19,13 +19,28 @@ The application leverages the following technologies:
 - **TypeScript:** A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
 - **GraphQL Client:** The application uses a GraphQL client for efficient data fetching and state management in the context of a GraphQL server.
 
-## Areas for Improvement
+## Running the Project Without Docker
 
-While the application is fully functional and robust, there are always areas that can be enhanced. Potential improvements include:
+To get started without Docker, run the following commands:
 
-- **State Management Enhancements:** Implementing more sophisticated state management solutions like Apollo Client's reactive variables or integrating Redux for complex application states. Right now there is no state management libray have been used. Only context api has been used for it. Possible improvements can be react's state management hooks, redux or zustang.
-- **Performance Optimization:** Further optimizing the application to reduce load times, such as implementing lazy loading for images and dynamically imported components.
-- **Type Improvements:** To enhanace the dev environment many type declaration from typescript can be improved. Right now even though this project is using typescript for development, but there are always scope for improvement in this. Although it won't affect it in client side as TS doesn't run in client side.
-- **Testing Suite Expansion:** Currently, the application doesn't have any testing suite. Expanding this to include more end-to-end tests and integration tests would increase reliability.
-- **User Experience (UX) Enhancements:** Continuous user feedback is essential. Based on user testing, the UX can be further refined and improved. Added products can be edited into fullest. Right now edit product is not properly implemented. Delete too.
-- **DRY:** There are some cases where had to use repeatative code. It can be reduced.
+```bash
+npm install
+# or
+yarn
+
+# Run the development server
+npm run dev
+# or
+yarn dev
+```
+
+## Running the Project With Docker
+
+To get started with Docker,
+
+```bash
+docker build -t teebay-frontend .
+
+# Run the container
+docker run -p 3000:3000 teebay-frontend
+```
