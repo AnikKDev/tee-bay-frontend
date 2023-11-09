@@ -1,8 +1,8 @@
 "use client";
 import { Grid } from "@mantine/core";
 import React, { useEffect } from "react";
-import ProductsCard from "../components/ProductsCard";
 import { ProductQueryType } from "../../types/product.types";
+import ProductsCard from "../all-products/components/ProductsCard";
 type Props = {
   myOrders?: ProductQueryType[];
   myRents?: ProductQueryType[];
@@ -14,6 +14,7 @@ export default function ProductsContainer({
   myRents,
   myProducts,
 }: Props) {
+  console.log(myOrders, "orders");
   return (
     <Grid my={80} gutter={{ base: 17, xs: "md", md: "xl", xl: 30 }}>
       {/* ordered products of user */}

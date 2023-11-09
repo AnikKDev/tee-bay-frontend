@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
-import ProductsCard from "../components/ProductsCard";
 import { Box, Button, Flex, Grid, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import ProductModal from "../components/ProductModal";
 import { useQuery, gql } from "@apollo/client";
 import CardSkeleton from "../../components/ui/card-skeleton";
 import { ProductData } from "../../types/product.types";
@@ -16,6 +14,8 @@ import {
 } from "../../gql/products/productQueries";
 import { useMutation } from "@apollo/client";
 import CustomNotification from "../../components/ui/notification";
+import ProductsCard from "./components/ProductsCard";
+import ProductModal from "./components/ProductModal";
 type Props = {};
 
 export default function AllProducts({}: Props) {

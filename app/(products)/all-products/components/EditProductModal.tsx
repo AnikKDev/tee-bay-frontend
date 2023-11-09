@@ -6,9 +6,9 @@ import FormTextInput from "./ProductCreationCompos/FormTextInput";
 import FormMultiSelect from "./ProductCreationCompos/FormMultiSelect";
 import FormTextArea from "./ProductCreationCompos/FormTextArea";
 import FormProductPricing from "./ProductCreationCompos/FormProductPricing";
-import { ProductData } from "../../types/product.types";
 import { useForm } from "@mantine/form";
-import { SELECTED_PRODUCT } from "../my-products/page";
+import { SELECTED_PRODUCT } from "../../my-products/page";
+import { ProductData } from "../../../types/product.types";
 
 type Props = {
   opened: boolean;

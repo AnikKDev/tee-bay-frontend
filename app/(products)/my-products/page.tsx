@@ -4,17 +4,24 @@ import React, {
   createContext,
   Dispatch,
   SetStateAction,
+  useEffect,
 } from "react";
-import ProductsCard from "../components/ProductsCard";
 import { Box, Button, Flex, Grid, Tabs, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import ProductModal from "../components/ProductModal";
 import { useQuery, gql } from "@apollo/client";
 import { GetProductsByUserMail } from "../../gql/products/productQueries";
 import ProductsContainer from "./ProductsContainer";
 import CardSkeleton from "../../components/ui/card-skeleton";
 import { ProductQueryType } from "../../types/product.types";
-export const ORDER_TAB = createContext<string>("");
+import ProductModal from "../all-products/components/ProductModal";
+
+type OrderTabContextType = {
+  selectedTab?: string;
+  setSelectedTab?: Dispatch<SetStateAction<string>>;
+};
+
+export const ORDER_TAB = createContext<OrderTabContextType | null>(null);
+
 export const SELECTED_PRODUCT = createContext<{
   selectedProduct: ProductQueryType;
   setSelectedProduct: Dispatch<SetStateAction<ProductQueryType>>;
@@ -31,7 +38,6 @@ export const SELECTED_PRODUCT = createContext<{
   setSelectedProduct: () => {},
 });
 type Props = {};
-
 export default function MyProducts({}: Props) {
   const [opened, { open, close }] = useDisclosure(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductQueryType>({
@@ -49,20 +55,28 @@ export default function MyProducts({}: Props) {
     { title: "My Products", value: "my_products" },
   ];
   const [selectedTab, setSelectedTab] = useState<string>("Ordered Products");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   // query for user specific products
+  useEffect(() => {
+    // Access localStorage after the component has mounted to ensure it's on the client-side
+    const email = localStorage.getItem("sazim_user_email");
+    if (email) {
+      setUserEmail(email);
+    }
+  }, []);
   const {
     data: products,
     error: productsError,
     loading: productsLoading,
   } = useQuery(GetProductsByUserMail, {
     variables: {
-      email: localStorage.getItem("sazim_user_email"),
+      email: userEmail,
     },
   });
   let displayableContent;
-  if (products) {
+  /* if (products) {
     console.log(products?.userByEmail?.orders);
-  }
+  } */
   if (productsLoading) {
     displayableContent = (
       <Grid my={80} gutter={{ base: 17, xs: "md", md: "xl", xl: 30 }}>
@@ -98,7 +112,9 @@ export default function MyProducts({}: Props) {
             setSelectedProduct,
           }}
         >
-          <ProductsContainer myProducts={products?.userByEmail?.orders} />
+          <ORDER_TAB.Provider value={{ selectedTab }}>
+            <ProductsContainer myProducts={products?.userByEmail?.orders} />
+          </ORDER_TAB.Provider>
         </SELECTED_PRODUCT.Provider>
       );
     }
@@ -130,9 +146,7 @@ export default function MyProducts({}: Props) {
         </Tabs>
         {/* items here */}
         {/* products container here */}
-        <ORDER_TAB.Provider value={selectedTab}>
-          {displayableContent}
-        </ORDER_TAB.Provider>
+        {displayableContent}
       </div>
       <ProductModal close={close} opened={opened} />
     </Box>

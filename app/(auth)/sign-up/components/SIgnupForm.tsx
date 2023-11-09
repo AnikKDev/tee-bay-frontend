@@ -10,7 +10,6 @@ import {
   Title,
 } from "@mantine/core";
 import React, { useEffect, useState } from "react";
-import FormTextInput from "../../../(products)/components/ProductCreationCompos/FormTextInput";
 import { isEmail, matchesField, useForm } from "@mantine/form";
 import { UserData } from "../../../types/user.types";
 import { InputPassword } from "../../../components/ui/form-input";
@@ -19,6 +18,7 @@ import { SignupUser } from "../../../gql/users/usersQueries";
 import { useRouter } from "next/navigation";
 import CustomAlert from "../../../components/ui/alert";
 import Link from "next/link";
+import FormTextInput from "../../../(products)/all-products/components/ProductCreationCompos/FormTextInput";
 type Props = {};
 
 export default function SIgnupForm({}: Props) {

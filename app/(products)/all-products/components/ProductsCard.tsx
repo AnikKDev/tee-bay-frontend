@@ -5,24 +5,11 @@ import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { HiPencil } from "react-icons/hi";
 import EditProductModal from "./EditProductModal";
-import { ORDER_TAB, SELECTED_PRODUCT } from "../my-products/page";
-import { ProductData } from "../../types/product.types";
+import { ORDER_TAB, SELECTED_PRODUCT } from "../../my-products/page";
 type Props = {
   handleProductPurchase?: (pid: string, email: string) => void;
   handleProductRent?: (pid: string, email: string) => void;
-  productData:
-    | {
-        product: {
-          id?: string;
-          title?: string;
-          price?: string;
-          description: string;
-          categories?: string[];
-          rentalPeriod?: string;
-          rentalAmount?: string;
-        };
-      }
-    | ProductData;
+  productData: any;
 };
 
 export default function ProductsCard({
@@ -31,7 +18,7 @@ export default function ProductsCard({
   productData,
 }: Props) {
   const [opened, { open, close }] = useDisclosure(false);
-  const selectedTab = useContext(ORDER_TAB);
+  const orderTab = useContext(ORDER_TAB);
   const { setSelectedProduct } = useContext(SELECTED_PRODUCT);
   return (
     <Box
@@ -46,7 +33,7 @@ export default function ProductsCard({
         <Title order={2}>
           {productData?.product?.title || productData?.title}
         </Title>
-        {selectedTab === "My Products" && (
+        {orderTab?.selectedTab === "My Products" && (
           <div>
             <AiFillDelete
               className="cursor-pointer"
@@ -65,7 +52,7 @@ export default function ProductsCard({
       </Flex>
       <Flex>
         {(productData?.product?.categories || productData?.categories)?.map(
-          (cat) => (
+          (cat: any) => (
             <Badge key={cat} color="gray" mx={2} style={{ cursor: "pointer" }}>
               {cat}
             </Badge>
@@ -90,15 +77,15 @@ export default function ProductsCard({
       <Title my={12} order={6}>
         Date Posted: 12-12-2023
       </Title>
-      {selectedTab !== "Ordered Products" &&
-        selectedTab !== "Rented Products" &&
-        selectedTab !== "My Products" && (
+      {orderTab?.selectedTab !== "Ordered Products" &&
+        orderTab?.selectedTab !== "Rented Products" &&
+        orderTab?.selectedTab !== "My Products" && (
           <>
             <Button
               onClick={() =>
                 handleProductPurchase(
                   productData.id,
-                  localStorage.getItem("sazim_user_email")
+                  localStorage.getItem("sazim_user_email") as string
                 )
               }
               className="bg-[#228BE6] hover:bg-[#1C7ED6] px-12 mt-10"
@@ -109,7 +96,7 @@ export default function ProductsCard({
               onClick={() =>
                 handleProductRent(
                   productData.id,
-                  localStorage.getItem("sazim_user_email")
+                  localStorage.getItem("sazim_user_email") as string
                 )
               }
               className="bg-[#228BE6] ms-2 hover:bg-[#1C7ED6] px-12 mt-10"

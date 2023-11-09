@@ -7,10 +7,13 @@ import FormTextArea from "./ProductCreationCompos/FormTextArea";
 import FormProductPricing from "./ProductCreationCompos/FormProductPricing";
 import ProductCreationSummary from "./ProductCreationCompos/ProductCreationSummary";
 import { useForm } from "@mantine/form";
-import { ProductData } from "../../types/product.types";
-import CustomAlert from "../../components/ui/alert";
 import { gql, useMutation } from "@apollo/client";
-import { AddProduct, GetAllProducts } from "../../gql/products/productQueries";
+import {
+  AddProduct,
+  GetAllProducts,
+} from "../../../gql/products/productQueries";
+import { ProductData } from "../../../types/product.types";
+import CustomAlert from "../../../components/ui/alert";
 type Props = {
   opened: boolean;
   close: () => void;
